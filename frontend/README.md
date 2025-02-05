@@ -1,4 +1,5 @@
-# React + Vite
+#http://16.171.74.239/
+# Sorry for the inconveniece of the website link not working, please refer to the following prototype link http://16.171.74.239/
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
