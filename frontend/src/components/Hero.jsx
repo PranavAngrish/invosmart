@@ -11,7 +11,7 @@ function Hero() {
             Harness the power of RPA, OCR, and Blockchain for seamless invoice validation and tax compliance.
           </p>
           <a
-            href="/invoice"
+            href="/billdashboard"
             className="bg-white text-blue-600 py-3 px-8 rounded-full text-lg font-semibold hover:bg-blue-100 transition duration-300 ease-in-out transform hover:scale-105"
           >
             Get Started

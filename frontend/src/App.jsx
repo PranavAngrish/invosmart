@@ -6,6 +6,8 @@ import SignupPage from "./pages/SignUpPage"
 import SignInPage from "./pages/SignInPage"
 import BillsPage from "./pages/BillsPage"
 import Home from "./pages/Home"
+import BillDashboard from "./pages/billDashboard"
+import PayeeManagement from "./pages/PayeeManagement"
 
 function App() {
   // This would normally come from your auth state management
@@ -17,9 +19,10 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/signin" element={<SignInPage />} />
+          <Route path="/billdashboard" element={<BillDashboard />} />
           <Route path="/invoice" element={<InvoiceReview />} />
           <Route path="/pending" element={<BillsPage />} />
-          
+          <Route path="/payee" element={<PayeeManagement />} />
       </Routes>
     </Router>
   )
