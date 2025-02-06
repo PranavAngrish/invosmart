@@ -4,12 +4,19 @@ import React,{ useState } from "react"
 import { Button } from "../components/ui/button"
 import { Input } from "../components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../components/ui/table"
-import { Settings, Plus } from "lucide-react"
+import { Settings, Plus, ArrowRight } from "lucide-react"
 import {Link, useNavigate } from "react-router-dom"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../components/ui/dropdown-menu"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../components/ui/dialog"
+import { Upload } from "lucide-react"
+
 import { ChevronDown } from "lucide-react"
+import FileUploadPopUp from "../components/FileUploadPopUp"
 
 export default function BillDashboard() {
+
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedFile, setSelectedFile] = useState(null)
   const navigate = useNavigate()
   const [bills, setBills] = useState([
     {
@@ -45,6 +52,21 @@ export default function BillDashboard() {
   ])
 
   const [searchTerm, setSearchTerm] = useState("")
+
+   const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0])
+  }
+
+  const handleFileSubmit = () => {
+    if (selectedFile) {
+      console.log("Uploaded File:", selectedFile.name)
+      setIsModalOpen(false)
+      setSelectedFile(null)
+    } else {
+      alert("Please select a file to upload.")
+    }
+  }
+
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value)
@@ -102,7 +124,7 @@ export default function BillDashboard() {
           <div className="p-4 flex justify-between items-center border-b">
             <h2 className="text-xl">Bill list</h2>
             <div className="flex gap-4">
-              <Button variant="outline" className="flex items-center gap-2">
+              <Button variant="outline" className="flex items-center gap-2 cursor-pointer hover:bg-gray-100" onClick={() => setIsModalOpen(true)}>
                 <Plus className="h-4 w-4" />
                 Add bill
               </Button>
@@ -111,7 +133,7 @@ export default function BillDashboard() {
 
           {/* Search and Filters */}
           <div className="p-4 flex justify-between items-center">
-            <Button variant="outline" className="flex items-center gap-2">
+            <Button variant="outline" className="flex items-center gap-2 cursor-pointer hover:bg-gray-100">
               Add filters
             </Button>
             <Input
@@ -127,7 +149,7 @@ export default function BillDashboard() {
             <TableHeader>
               <TableRow>
                 <TableHead className="w-12">
-                  <input type="checkbox" />
+                  {/* <input type="checkbox" /> */}
                 </TableHead>
                 <TableHead>Payer entity</TableHead>
                 <TableHead>Payee ID</TableHead>
@@ -163,7 +185,7 @@ export default function BillDashboard() {
                   <TableCell>{bill.amount}</TableCell>
                   <TableCell onClick={(e) => e.stopPropagation()}>
                     <Button variant="ghost" size="icon">
-                      {/* <Settings className="h-4 w-4" /> */}
+                      <ArrowRight className="h-4 w-4" />
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -175,6 +197,9 @@ export default function BillDashboard() {
           <div className="p-4 border-t text-sm text-gray-500">{filteredBills.length} items | 1 page</div>
         </div>
       </main>
+
+     <FileUploadPopUp setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} handleFile={handleFileChange}/>
+
     </div>
   )
 }

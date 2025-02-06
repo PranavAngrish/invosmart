@@ -1,10 +1,9 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
 import React from "react"
 
-import InvoiceReview from "./pages/InvoiceReview"
+import InvoiceReview from "./pages/Invoice"
 import SignupPage from "./pages/SignUpPage"
 import SignInPage from "./pages/SignInPage"
-import BillsPage from "./pages/BillsPage"
 import Home from "./pages/Home"
 import BillDashboard from "./pages/billDashboard"
 import PayeeManagement from "./pages/PayeeManagement"
@@ -21,7 +20,6 @@ function App() {
           <Route path="/signin" element={<SignInPage />} />
           <Route path="/billdashboard" element={<BillDashboard />} />
           <Route path="/invoice" element={<InvoiceReview />} />
-          <Route path="/pending" element={<BillsPage />} />
           <Route path="/payee" element={<PayeeManagement />} />
       </Routes>
     </Router>

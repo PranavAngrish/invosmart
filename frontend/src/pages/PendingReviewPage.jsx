@@ -1,4 +1,3 @@
-"use client"
 import React,{ useState } from "react"
 import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
@@ -8,82 +7,75 @@ import { Checkbox } from "../components/ui/checkbox"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../components/ui/table"
 import { CalendarIcon, ChevronLeft, ChevronRight, HelpCircle, Plus, X } from "lucide-react"
 import Invoice from "../assets/invoice.jpg"
-import Header from "../components/Header"
-import { Link, useLocation } from "react-router-dom"
-import { ArrowLeft } from "lucide-react"
+import {useLocation, useNavigate } from "react-router-dom"
+import { Search } from "lucide-react"
 
-export default function InvoiceReview() {
-  const location = useLocation()
-  const { billDetails } = location.state || {}
+const PendingReviewPage = () => {
 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const [selectedApprovers, setSelectedApprovers] = useState([])
+    const navigate = useNavigate()
+    const location = useLocation()
+    const { billDetails } = location.state || {}
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+    const [selectedApprovers, setSelectedApprovers] = useState([])
+    // console.log("billDetails",billDetails)
 
-  const handleApproverSelect = (role, email) => {
-    setSelectedApprovers([...selectedApprovers, { role, email }])
-    setIsDropdownOpen(false)
-  }
+    const handleApproverSelect = (role, email) => {
+        setSelectedApprovers([...selectedApprovers, { role, email }])
+        setIsDropdownOpen(false)
+     }
 
-  const removeApprover = (index) => {
-    setSelectedApprovers(selectedApprovers.filter((_, i) => i !== index))
-  }
+    const removeApprover = (index) => {
+        setSelectedApprovers(selectedApprovers.filter((_, i) => i !== index))
+    }
 
-  if (!billDetails) {
-    return (
-      <div className="min-h-screen bg-[#f5f5f5] p-6">
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl mb-4">No invoice details found</h2>
-          <Link to="/">
-            <Button variant="outline" className="cursor-pointer hover:bg-gray-100">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Bills
-            </Button>
-          </Link>
-        </div>
-      </div>
-    )
-  }
+    const handleSubmit = (invoice) => {
+        // Add your submit logic here
 
-  const handleSubmit = () => {
-    // Add your submit logic here
-    console.log("Submitting invoice...")
-  }
+        console.log(invoice)
+        let existingInvoices = JSON.parse(localStorage.getItem("invoices")) || [];
+        const isDuplicate = existingInvoices.some(item => item.id === invoice.id);
+        if (isDuplicate) {
+        console.warn("Invoice already exists!");
+        return;
+    }
+        existingInvoices.push(invoice);
+        localStorage.setItem("invoices", JSON.stringify(existingInvoices));
+    }
 
-  const handleSave = () => {
-    // Add your save logic here
-    console.log("Saving invoice...")
-  }
+    const handleSave = () => {
+        // Add your save logic here
+        console.log("Saving invoice...")
+    }
 
-  const handleDiscard = () => {
-    // Add your discard logic here
-    console.log("Discarding changes...")
-  }
+    const handleDiscard = () => {
+        // Add your discard logic here
+        console.log("Discarding changes...")
+    }
+
+    
+  // if (!billDetails) {
+  //   return (
+  //     <div className="min-h-screen bg-[#f5f5f5] p-6">
+  //       <div className="bg-white rounded-lg shadow p-6">
+  //         <h2 className="text-xl mb-4">No invoice details found</h2>
+  //         <Link to="/">
+  //           <Button variant="outline" className="cursor-pointer hover:bg-gray-100">
+  //             <ArrowLeft className="mr-2 h-4 w-4" />
+  //             Back to Bills
+  //           </Button>
+  //         </Link>
+  //       </div>
+  //     </div>
+  //   )
+  // }
+
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Navigation Bar */}
-      <Header />
-
+    <div>   
       {/* Main Content */}
       <div className="container mx-auto py-6 px-4">
         {/* Navigation */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm">
-              <ChevronLeft className="h-4 w-4 mr-1" />
-              Back
-            </Button>
-            <span className="text-sm text-gray-500">1 of 25</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon">
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <Button variant="ghost" size="icon">
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
+        
 
         {/* Title Section */}
         <div className="flex items-center justify-between mb-6">
@@ -92,13 +84,13 @@ export default function InvoiceReview() {
             <span className="bg-gray-200 text-gray-700 px-2 py-1 rounded text-sm">Pending review</span>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm">
+            {/* <Button variant="outline" size="sm">
               <HelpCircle className="h-4 w-4 mr-1" />
               Help
             </Button>
             <Button variant="outline" size="sm">
               Actions
-            </Button>
+            </Button> */}
           </div>
         </div>
 
@@ -353,7 +345,9 @@ export default function InvoiceReview() {
                   >
                     Save
                   </Button>
-                  <Button onClick={handleSubmit} className="min-w-[100px] bg-[#82b91e] hover:bg-[#74a41a] cursor-pointer text-white">
+                  <Button 
+                    onClick={handleSubmit(billDetails)}
+                    className="min-w-[100px] bg-[#82b91e] hover:bg-[#74a41a] cursor-pointer text-white">
                     Submit
                   </Button>
                 </div>
@@ -361,8 +355,9 @@ export default function InvoiceReview() {
             </CardContent>
           </Card>
         </div>
-      </div>
+    </div>
     </div>
   )
 }
 
+export default PendingReviewPage
