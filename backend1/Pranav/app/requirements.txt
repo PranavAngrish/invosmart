@@ -1,0 +1,10 @@
+fastapi 
+uvicorn 
+sqlalchemy 
+python-dotenv 
+imaplib2 
+pdf2image 
+paddleocr 
+llama-index 
+huggingface_hub 
+jsonschema
